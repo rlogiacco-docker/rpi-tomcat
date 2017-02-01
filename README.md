@@ -40,6 +40,6 @@ Remember to change `/home/user/appname` to the directory where the war is stored
 
 # Links
 
-- [Source Repository](https://github.com/rlogiacco-docker/rpi-tomca)
-- [Dockerfile](https://github.com/rlogiacco-docker/rpi-tomca/blob/master/Dockerfile)
+- [Source Repository](https://github.com/rlogiacco-docker/rpi-tomcat)
+- [Dockerfile](https://github.com/rlogiacco-docker/rpi-tomcat/blob/master/Dockerfile)
 - [DockerHub](https://registry.hub.docker.com/u/rlogiacco/rpi-tomcat/)
