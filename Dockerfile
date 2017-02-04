@@ -1,32 +1,34 @@
-FROM rlogiacco/rpi-java
+FROM armhf/alpine
 
-MAINTAINER Roberto Lo Giacco <rlogiacco@gmail.com>
+LABEL maintainer "Roberto Lo Giacco <rlogiacco@gmail.com>"
 
-ENV TOMCAT_VERSION 7.0.73
-ENV TOMCAT_PARENT /usr/share
-ENV CATALINA_HOME /usr/share/tomcat
+ENV PATH=$PATH:$CATALINA_HOME/bin \
+    JAVA_HOME=/usr/lib/jvm/default-jvm \
+    TOMCAT_VERSION=7.0.75 \
+    TOMCAT_MIRROR=http://mirror.nohup.it/apache/tomcat/tomcat-7 \
+    TOMCAT_PARENT=/usr/share \
+    CATALINA_HOME=/usr/share/tomcat \
+    ADMIN_USERNAME=admin
 
-# Get binaries
-RUN \
-  wget --quiet --no-cookies http://apache.rediris.es/tomcat/tomcat-8/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz -O /tmp/tomcat.tgz
+# install binaries
+RUN apk add --no-cache openjdk7
+RUN ln -sf "${JAVA_HOME}/bin/"* "/usr/bin/" \
+ && wget "${TOMCAT_MIRROR}/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz" -O /tmp/tomcat.tgz \
+ && tar xzvf /tmp/tomcat.tgz -C ${TOMCAT_PARENT} \
+ && mv /usr/share/apache-tomcat-${TOMCAT_VERSION} ${CATALINA_HOME} \
+# cleanup
+ && rm /tmp/tomcat.tgz \
+ && rm -rf ${CATALINA_HOME}/webapps/examples \
+ && rm -rf ${CATALINA_HOME}/webapps/docs \
+ && rm -rf ${CATALINA_HOME}/webapps/ROOT
 
-# Uncompress
-RUN \
-  tar xzvf /tmp/tomcat.tgz -C ${TOMCAT_PARENT} && \
-  mv /usr/share/apache-tomcat-${TOMCAT_VERSION} ${CATALINA_HOME} && \
-  rm /tmp/tomcat.tgz && \
-  rm -rf ${CATALINA_HOME}/webapps/examples && \
-  rm -rf ${CATALINA_HOME}/webapps/docs && \
-  rm -rf ${CATALINA_HOME}/webapps/ROOT
-
-# Add admin/admin user
-ADD tomcat-users.xml ${CATALINA_HOME}/conf/
-ADD entrypoint.sh /
+# add admin user
+COPY tomcat-users.xml ${CATALINA_HOME}/conf/
+COPY entrypoint.sh /
 RUN chmod a+x /entrypoint.sh
-  
-ENV PATH $PATH:$CATALINA_HOME/bin
 
 EXPOSE 8080 8009
+
 VOLUME ${CATALINA_HOME}/webapps
 WORKDIR ${CATALINA_HOME}
 
