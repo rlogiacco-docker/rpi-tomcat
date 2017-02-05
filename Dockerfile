@@ -4,8 +4,8 @@ LABEL maintainer "Roberto Lo Giacco <rlogiacco@gmail.com>"
 
 ENV PATH=$PATH:$CATALINA_HOME/bin \
     JAVA_HOME=/usr/lib/jvm/default-jvm \
-    TOMCAT_VERSION=7.0.75 \
-    TOMCAT_MIRROR=http://mirror.nohup.it/apache/tomcat/tomcat-7 \
+    TOMCAT_VERSION=8.5.11 \
+    TOMCAT_MIRROR=http://mirror.nohup.it/apache/tomcat/tomcat-8 \
     TOMCAT_PARENT=/usr/share \
     CATALINA_HOME=/usr/share/tomcat \
     ADMIN_USERNAME=admin
