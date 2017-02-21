@@ -44,7 +44,6 @@ The following environment parameters can be set:
  - `TOMCAT_VERSION` during image build provides the tomcat version to install
  
 
-
 # Links
 
  - [Source Repository](https://github.com/rlogiacco-docker/rpi-tomcat)
